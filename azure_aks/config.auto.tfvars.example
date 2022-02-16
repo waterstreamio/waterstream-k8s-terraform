@@ -1,0 +1,9 @@
+kubernetes_version = "1.21.7"
+
+cluster_name = "waterstream-demo"
+location = "West Europe"
+
+min_nodes_count = 3
+max_nodes_count = 10
+
+node_type = "Standard_DS2_v2"

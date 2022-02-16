@@ -1,0 +1,5 @@
+project = "<your GCP project>"
+region = "europe-west1"
+#see the versions available here: https://cloud.google.com/kubernetes-engine/docs/release-notes
+k8s_version = "latest"
+

@@ -1,0 +1,10 @@
+kube_config
+terraform.tfstate
+terraform.tfstate.*
+.terraform.tfstate.lock.info
+.terraform.lock.hcl
+.terraform
+config.auto.tfvars
+waterstream.license
+account.json
+.idea

@@ -1,0 +1,32 @@
+###############################################################
+## DockerHub
+###############################################################
+docker_username = "<your DockerHub username>"
+docker_password = "<your DockerHub password>"
+
+
+###############################################################
+## Kafka
+###############################################################
+#This example parameters are suitable for Confluent Cloud. Customize them if your Kafka cluster has different connection settings.
+kafka_bootstrap_servers = "<your CC Kafka host>.confluent.cloud:9092"
+kafka_sslEndpointIdentificationAlgorithm = "https"
+kafka_saslJaasConfig = "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"<your CC Kafka username>\" password=\"<your CC Kafka password>\";"
+kafka_saslMechanism = "PLAIN"
+kafka_securityProtocol = "SASL_SSL"
+kafka_requestTimeoutMs = 30000
+
+###############################################################
+## Waterstream
+###############################################################
+waterstream_version = "1.3.25"
+waterstream_image_name = "simplematter/waterstream-kafka"
+waterstream_replicas_count = 2
+waterstream_node_cpu = "1"
+waterstream_node_memory = "4096M"
+
+###############################################################
+## Other
+###############################################################
+#customize if you want multiple Waterstream deployments on single K8s cluster
+namespaces_suffix = ""
