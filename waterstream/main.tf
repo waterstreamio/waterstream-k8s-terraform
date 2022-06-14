@@ -1,5 +1,5 @@
 provider "kubernetes" {
-  config_path    = "../kube_config"
+  config_path    = var.kubernetes_config_path
 }
 
 resource "kubernetes_namespace" "waterstream" {
@@ -220,6 +220,14 @@ resource "kubernetes_deployment" "waterstream" {
           env {
             name = "KAFKA_STREAMS_REPLICATION_FACTOR"
             value = tostring(var.kafka_streams_replication_factor)
+          }
+          env {
+            name = "KAFKA_STREAMS_APP_SERVER_HOST"
+            value_from {
+              field_ref {
+                field_path = "status.podIP"
+              }
+            }
           }
           env {
             name = "KAFKA_STREAMS_APP_SERVER_PORT"

@@ -1,4 +1,13 @@
 ###############################################################
+## Kubernetes
+###############################################################
+
+variable "kubernetes_config_path" {
+  type = string
+  default = "../kube_config"
+}
+
+###############################################################
 ## Docker
 ###############################################################
 
@@ -40,7 +49,7 @@ variable "waterstream_image_name" {
 
 variable "waterstream_version" {
   type = string
-  default = "1.3.25"
+  default = "1.4.0"
 }
 
 variable "waterstream_replicas_count" {
