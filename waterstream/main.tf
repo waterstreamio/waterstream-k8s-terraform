@@ -206,6 +206,11 @@ resource "kubernetes_deployment" "waterstream" {
             value = var.kafka_topic_default_mqtt_messages
           }
           env {
+            name = "KAFKA_MQTT_MAPPINGS"
+            value = var.kafka_mqtt_mappings
+          }
+          env {
+            //Deprecated
             name = "KAFKA_MESSAGES_TOPICS_PATTERNS"
             value = var.kafka_messages_topics_patterns
           }

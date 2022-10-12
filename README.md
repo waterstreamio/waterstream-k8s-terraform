@@ -28,6 +28,10 @@ If you have multiple subscriptions you can pick the one you'd like to use:
 
      az account set --subscription="SUBSCRIPTION_ID"
 
+Check the available K8s versions in the region, you'll need it when configuring `kubernetes_version` parameter:
+
+     az aks get-versions --location <your K8s location - e.g. "West Europe">
+
 Now you can go to the `azure_aks` folder, configure and apply the Terraform scripts to have the AKS cluster created for you:
 
     cd azure_aks

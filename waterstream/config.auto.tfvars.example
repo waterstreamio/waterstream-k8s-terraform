@@ -16,10 +16,18 @@ kafka_saslMechanism = "PLAIN"
 kafka_securityProtocol = "SASL_SSL"
 kafka_requestTimeoutMs = 30000
 
+
+//In-line mapping config between (Kafka topic, Kafka key) and MQTT topic - HOCON format (see https://docs.waterstream.io/release/configGuide.html#mqtt-to-kafka-topic-key-mapping-rules-new)
+kafka_mqtt_mappings = <<-EOF
+rules = [
+]
+EOF
+
+
 ###############################################################
 ## Waterstream
 ###############################################################
-waterstream_version = "1.4.0"
+waterstream_version = "1.4.4"
 waterstream_image_name = "simplematter/waterstream-kafka"
 waterstream_replicas_count = 2
 waterstream_node_cpu = "1"

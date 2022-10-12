@@ -49,7 +49,7 @@ variable "waterstream_image_name" {
 
 variable "waterstream_version" {
   type = string
-  default = "1.4.0"
+  default = "1.4.4"
 }
 
 variable "waterstream_replicas_count" {
@@ -108,16 +108,23 @@ variable "waterstream_max_message_size_bytes" {
 ## Kafka topics and tuning
 ###############################################################
 
+//Default topic for MQTT messages
 variable "kafka_topic_default_mqtt_messages" {
   default = "mqtt_messages"
   type = string
 }
 
+//Deprecated
 variable "kafka_messages_topics_patterns" {
   default = ""
   type = string
 }
 
+//In-line mapping config between (Kafka topic, Kafka key) and MQTT topic - HOCON format (see https://docs.waterstream.io/release/configGuide.html#mqtt-to-kafka-topic-key-mapping-rules-new)
+variable "kafka_mqtt_mappings" {
+  default = ""
+  type = string
+}
 
 variable "kafka_topic_session" {
   default = "mqtt_sessions"
