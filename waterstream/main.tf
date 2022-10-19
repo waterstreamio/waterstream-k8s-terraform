@@ -295,8 +295,12 @@ resource "kubernetes_service" "waterstream" {
     labels = {
       app = "waterstream"
     }
+    annotations = {
+      service.beta.kubernetes.io/azure-dns-label-name: var.namespace
+    }
   }
   spec {
+    load_balancer_ip = var.waterstream_static_ip
     selector = {
       app = "waterstream"
     }
