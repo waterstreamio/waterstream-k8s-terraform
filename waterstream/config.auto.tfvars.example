@@ -27,7 +27,7 @@ EOF
 ###############################################################
 ## Waterstream
 ###############################################################
-waterstream_version = "1.4.4"
+waterstream_version = "1.4.5"
 waterstream_image_name = "simplematter/waterstream-kafka"
 waterstream_replicas_count = 2
 waterstream_node_cpu = "1"

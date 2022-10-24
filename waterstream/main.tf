@@ -132,10 +132,37 @@ resource "kubernetes_deployment" "waterstream" {
             container_port = 1884
             name = "metrics"
           }
+          dynamic "port" {
+            for_each = var.waterstream_websockets_port == null ? [] : ["1"]
+            content {
+              container_port = tostring(var.waterstream_websockets_port)
+              name           = "mqttws"
+            }
+          }
           volume_mount {
             mount_path = "/etc/waterstream"
             name       = "etc-waterstream"
             read_only  = true
+          }
+          liveness_probe {
+            initial_delay_seconds = 20
+            period_seconds = 20
+            success_threshold = 1
+            failure_threshold = 3
+            http_get {
+              path = "/health"
+              port = "1884"
+            }
+          }
+          startup_probe {
+            initial_delay_seconds = 20
+            period_seconds = 20
+            success_threshold = 1
+            failure_threshold = 3
+            http_get {
+              path = "/health"
+              port = "1884"
+            }
           }
           env {
             name = "KAFKA_BOOTSTRAP_SERVERS"
@@ -246,6 +273,13 @@ resource "kubernetes_deployment" "waterstream" {
             name = "KAFKA_STREAMS_PROPAGATION_UNDECISIVE_TIMEOUT_MS"
             value = "5000"
           }
+          dynamic "env" {
+            for_each = var.waterstream_websockets_port == null ? [] : ["1"]
+            content {
+              name  = "MQTT_WS_PORT"
+              value = var.waterstream_websockets_port
+            }
+          }
           env {
             name = "MQTT_BLOCKING_THREAD_POOL_SIZE"
             value = tostring(var.waterstream_blocking_thread_pool_size)
@@ -296,7 +330,7 @@ resource "kubernetes_service" "waterstream" {
       app = "waterstream"
     }
     annotations = {
-      service.beta.kubernetes.io/azure-dns-label-name: var.namespace
+      "service.beta.kubernetes.io/azure-dns-label-name": var.namespace
     }
   }
   spec {
@@ -305,8 +339,17 @@ resource "kubernetes_service" "waterstream" {
       app = "waterstream"
     }
     port {
+      name = "mqtt"
       port = 1883
       target_port = 1883
+    }
+    dynamic "port" {
+      for_each = var.waterstream_websockets_port == null ? [] : ["1"]
+      content {
+        name        = "mqttws"
+        port        = var.waterstream_websockets_port
+        target_port = var.waterstream_websockets_port
+      }
     }
     external_traffic_policy = "Cluster"
     type = "LoadBalancer"

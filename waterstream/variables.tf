@@ -57,6 +57,11 @@ variable "waterstream_static_ip" {
   default = null
 }
 
+variable "waterstream_websockets_port" {
+  type = number
+  default = null
+}
+
 variable "waterstream_replicas_count" {
   type        = number
   default     = 2

@@ -8,3 +8,4 @@ config.auto.tfvars
 waterstream.license
 account.json
 .idea
+tfcloud.tf

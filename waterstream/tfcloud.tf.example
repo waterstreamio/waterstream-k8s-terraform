@@ -1,0 +1,9 @@
+terraform {
+  cloud {
+    organization = "sample_org"
+
+    workspaces {
+      tags = ["waterstream_k8s_demo"]
+    }
+  }
+}
