@@ -10,6 +10,7 @@
     <logger name="io.waterstream" level="INFO"/>
 <!--    <logger name="io.waterstream.mqtt.g" level="TRACE"/>-->
 <!--    <logger name="io.waterstream.kafka" level="TRACE"/>-->
+<!--    <logger name="io.waterstream.kafka" level="DEBUG"/>-->
 
     <root level="INFO">
         <appender-ref ref="STDOUT"/>

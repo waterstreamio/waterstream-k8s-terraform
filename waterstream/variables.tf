@@ -49,7 +49,7 @@ variable "waterstream_image_name" {
 
 variable "waterstream_version" {
   type = string
-  default = "1.4.5"
+  default = "1.4.9"
 }
 
 variable "waterstream_static_ip" {

@@ -50,6 +50,11 @@ resource "random_string" "kafka_streams_app_server_shared_token" {
 
 
 resource "kubernetes_deployment" "waterstream" {
+  depends_on = [kubernetes_config_map.etc_waterstream]
+  lifecycle {
+    replace_triggered_by = [kubernetes_config_map.etc_waterstream]
+  }
+
   metadata {
     name = "waterstream"
     namespace = kubernetes_namespace.waterstream.metadata.0.name
