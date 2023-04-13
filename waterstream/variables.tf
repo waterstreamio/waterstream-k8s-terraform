@@ -112,6 +112,97 @@ variable "waterstream_max_message_size_bytes" {
   default = 100000
 }
 
+###############################################################
+## SSL
+###############################################################
+
+variable "waterstream_ssl_enabled" {
+  type = bool
+  default = false
+}
+
+variable "waterstream_ssl_key_inline" {
+  type = string
+  default = null
+}
+
+variable "waterstream_ssl_cert_inline" {
+  type = string
+  default = null
+}
+
+###############################################################
+## Authentication
+###############################################################
+
+variable "waterstream_authentication_required" {
+  description = "If Waterstream requires authentication. If true also enables JWT authentication mechanism."
+  type = bool
+  default = false
+}
+
+variable "waterstream_authentication_method_jwt_enabled" {
+  description = "If authentication with JWT token is enabled. If null, defaults to same as waterstream_authentication_required"
+  type = bool
+  default = null
+}
+
+variable "waterstream_jwt_audience" {
+  description = "Expected aud (audience) claim - optional"
+  type = string
+  default = null
+}
+
+variable "waterstream_jwt_verification_key_algorithm" {
+  description = "Type of the key used for JWT signature verification. Valid values are HmacSHA256, HmacSHA384, HmacSHA512, RSA, ECDSA"
+  type = string
+  default = "RSA"
+}
+
+variable "waterstream_jwt_verification_key" {
+  description = "In-line content of the key used for the JWT signature verification"
+  type = string
+  default = null
+}
+
+variable "waterstream_jwt_subject_username_extraction_regex" {
+  description = "Regex to extract principal username from 'sub' claim of the JWT token. First group is extracted. Empty regex means no transformation."
+  type = string
+  default = ""
+}
+
+variable "waterstream_jwt_groups_claim_name" {
+  description = "Name of the claim from which to retrieve the groups of the principal. Empty - no groups."
+  type = string
+  default = ""
+}
+
+variable "waterstream_authentication_method_plain_enabled" {
+  description = "If authentication with plain username/password is enabled. !!! For development/testing only! Disable it in the production !!!"
+  type = bool
+  default = false
+}
+
+variable "waterstream_authentication_plain_users_content" {
+  description = "Content of file with 'username=password' pairs for plaintext authentication. For development/testing only."
+  type = string
+  default = ""
+}
+
+###############################################################
+## Authorization
+###############################################################
+
+variable "waterstream_authorization_rules" {
+  description = "In-line authorization rules for the MQTT topics"
+  type = string
+  default = <<EOF
+Topic,                                 Action,       Condition,                Outcome
+#,                                     ALL,          ,                         ALLOW
+EOF
+
+}
+
 
 
 ###############################################################

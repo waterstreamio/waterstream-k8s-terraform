@@ -37,8 +37,13 @@ resource "kubernetes_config_map" "etc_waterstream" {
   }
 
   data = {
-    waterstream_license = file("${path.module}/waterstream.license")
-    logback_xml = file("${path.module}/resources/logback.xml")
+    "waterstream.license" = file("${path.module}/waterstream.license")
+    "logback.xml" = file("${path.module}/resources/logback.xml")
+    "ssl_key" = var.waterstream_ssl_key_inline
+    "ssl_cert" = var.waterstream_ssl_cert_inline
+    "jwt_key" = var.waterstream_jwt_verification_key
+    "users.properties" = var.waterstream_authentication_plain_users_content
+    "authorization_rules.csv" = var.waterstream_authorization_rules
   }
 }
 
@@ -105,14 +110,6 @@ resource "kubernetes_deployment" "waterstream" {
           name = "etc-waterstream"
           config_map {
             name = kubernetes_config_map.etc_waterstream.metadata.0.name
-            items {
-                key = "waterstream_license"
-                path = "waterstream.license"
-              }
-            items {
-                key = "logback_xml"
-                path = "logback.xml"
-              }
           }
         }
         container {
@@ -320,6 +317,70 @@ resource "kubernetes_deployment" "waterstream" {
           env {
             name = "WATERSTREAM_LOGBACK_CONFIG"
             value = "/etc/waterstream/logback.xml"
+          }
+          env {
+            name = "KAFKA_MQTT_MAPPINGS"
+            value = var.kafka_mqtt_mappings
+          }
+          env {
+            name = "SSL_ENABLED"
+            value = tostring(var.waterstream_ssl_enabled)
+          }
+          env {
+            name = "SSL_KEY_PATH"
+            value = "/etc/waterstream/ssl_key"
+          }
+          env {
+            name = "SSL_CERT_PATH"
+            value = "/etc/waterstream/ssl_cert"
+          }
+          env {
+            name = "AUTHENTICATION_REQUIRED"
+            value = var.waterstream_authentication_required
+          }
+          env {
+            name = "AUTHENTICATION_METHOD_JWT_ENABLED"
+            value = tostring(coalesce(var.waterstream_authentication_method_jwt_enabled, var.waterstream_authentication_required))
+          }
+          env {
+            name = "JWT_AUDIENCE"
+            value = var.waterstream_jwt_audience
+          }
+          env {
+            name = "JWT_VERIFICATION_KEY_ALGORITHM"
+            value = var.waterstream_jwt_verification_key_algorithm
+          }
+          env {
+            name = "JWT_VERIFICATION_KEY_PATH"
+            value = "/etc/waterstream/jwt_key"
+          }
+          env {
+            name = "JWT_SUBJECT_USERNAME_EXTRACTION_REGEX"
+            value = var.waterstream_jwt_subject_username_extraction_regex
+          }
+          env {
+            name = "JWT_GROUPS_CLAIM_NAME"
+            value = var.waterstream_jwt_groups_claim_name
+          }
+          env {
+            name = "AUTHENTICATION_METHOD_PLAIN_USERS_FILE_ENABLED"
+            value = tostring(var.waterstream_authentication_method_plain_enabled)
+          }
+          env {
+            name = "USERS_FILE_PATH"
+            value = "/etc/waterstream/users.properties"
+          }
+          env {
+            name = "AUTHORIZATION_RULES_PATH"
+            value = "/etc/waterstream/authorization_rules.csv"
+          }
+          env {
+            name = "AUTHORIZATION_PUBLISH_DEFAULT_OUTCOME"
+            value = "DENY"
+          }
+          env {
+            name = "AUTHORIZATION_SUBSCRIBE_DEFAULT_OUTCOME"
+            value = "DENY"
           }
         }
       }
